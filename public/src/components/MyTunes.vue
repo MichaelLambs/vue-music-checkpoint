@@ -1,6 +1,9 @@
 <template>
-    <div class="my-tunes">
-        <h1>List of MyTunes</h1>
+    <div class="my-tunes col-sm-3">
+        <div class="">
+
+            <h1>List of MyTunes</h1>
+        </div>
     </div>
 </template>
 

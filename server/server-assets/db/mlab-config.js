@@ -1,8 +1,8 @@
 var mongoose = require("mongoose");
-console.log('Be sure to put in your connection string!')
-var connectionString = "";
 
+var connectionString = "mongodb://music:music@ds012538.mlab.com:12538/vue-music";
 var connection = mongoose.connection;
+
 mongoose.connect(connectionString);
 
 connection.on("error", err => {
@@ -10,5 +10,5 @@ connection.on("error", err => {
 });
 
 connection.once("open", () => {
-  console.log("connected to database");
+  console.log("connected to MLAB BOOOOOOYYAAAAAAAAKAAAASHAAAAAA");
 });
