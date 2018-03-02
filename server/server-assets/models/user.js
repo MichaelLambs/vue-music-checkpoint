@@ -8,7 +8,6 @@ var schema = new Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     email: {type: String, required: true, unique: true},
-    userImage: {type: String, default: "http://svgur.com/i/jJ.svg"},
     songOrder : {type: Array, default: ["1a", "2b", "3c", "4d", "5e", "6f"]}
 })
 

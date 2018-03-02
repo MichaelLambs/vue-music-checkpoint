@@ -20,10 +20,6 @@
                             <label>Password</label>
                             <input v-model="signupUser.password" class="form-control" type="password" placeholder="Password" required>
                         </div>
-                        <div class="form-group">
-                            <label>Profile Img</label>
-                            <input v-model="signupUser.userImage" class="form-control" type="link" placeholder="Img URL">
-                        </div>
                         <button class="btn btn-block btn-outline-success" type="submit">signup</button>
                     </form>
                 </div>

@@ -7,6 +7,7 @@
                     <img class="cover" :src="track.artworkUrl100" alt="" width="200" height="200">
                     <h3>{{track.artistName}}</h3>
                     <p><em>{{track.trackName}}</em></p>
+                    <button @click.prevent="addFav(track)">add to fav</button>
                 </div>
             </div>
         </div>
@@ -22,6 +23,11 @@
 
             }
         },
+        methods: {
+            addFav(track) {
+                this.$store.dispatch('addFav', track)
+            }
+        },
         computed: { // ALWAYS PUT RETURN ON COMPUTED!!!!!!!!!!!!! WASTE OF TIME!!!!!!!!!!!!
             tracks() {
                 var updateImage = this.$store.state.results
@@ -31,7 +37,6 @@
                     if(songTrack.artworkUrl100) {
                         var newArt = songTrack.artworkUrl100.replace('100x100bb', '500x500bb')
                         songTrack.artworkUrl100 = newArt
-                        // console.log(newArt)
                     }
                 }
 

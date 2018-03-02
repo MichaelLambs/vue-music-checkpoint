@@ -10,6 +10,11 @@ var auth = axios.create({
   withCredentials: true
 });
 
+var serverAPI = axios.create({
+  baseURL: '//localhost:3000/api/',
+  withCredentials: true
+});
+
 var musicAPI = axios.create({
   baseURL: '//bcw-getter.herokuapp.com/?url=',
 })
@@ -25,6 +30,12 @@ export default new vuex.Store({
   mutations: {
     setResults(state, results) {
       state.results = results
+    },
+    addToFav(state, track){
+      state.myTunes.push(track)
+    },
+    setMyTunes(state, payload){
+      state.myTunes = payload
     },
 
     // START AUTH MUTATIONS
@@ -48,22 +59,46 @@ export default new vuex.Store({
         })
     },
     getMyTunes({ commit, dispatch }) {
-      //this should send a get request to your server to return the list of saved tunes
+      serverAPI.get('tracks')
+        .then(res => {
+          console.log('MY TUNES', res.data)
+          commit('setMyTunes', res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
-    addToMyTunes({ commit, dispatch }, track) {
-      //this will post to your server adding a new track to your tunes
+    addFav({ commit, dispatch }, track) {
+      serverAPI.post('tracks', track)
+        .then(res => {
+          commit('addToFav', res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })  
     },
     removeTrack({ commit, dispatch }, track) {
-      //Removes track from the database with delete
+      serverAPI.delete('tracks/' + track._id)
+        .then(res => {
+          dispatch('getMyTunes')
+        })
     },
-    promoteTrack({ commit, dispatch }, track) {
-      //this should increase the position / upvotes and downvotes on the track
+    upvote({ commit, dispatch }, track) {
+      track.trackLike++
+      serverAPI.put('tracks/' + track._id, track)
+        .then(res => {
+          dispatch('getMyTunes', track)
+        })
     },
-    demoteTrack({ commit, dispatch }, track) {
-      //this should decrease the position / upvotes and downvotes on the track
+    downvote({ commit, dispatch }, track) {
+      track.trackLike--
+      serverAPI.put('tracks/' + track._id, track)
+        .then(res => {
+          dispatch('getMyTunes', track)
+        })
     },
 
-    // START AUTH ROUTES
+    //region START AUTH ROUTES
     login({ commit, dispatch }, payload) {
       console.log("LOGIN USER DATA", payload)
       auth.post('login', payload)
@@ -71,7 +106,7 @@ export default new vuex.Store({
           console.log("LOGIN USER DATA", res.data.user)
           commit('loginUser', res.data.user)
           router.push({ name: 'Home' })
-          // dispatch('getFavMusic') //ALLOWS FAV MUSIC TO POPULATE ON LOGIN
+          dispatch('getMyTunes') //ALLOWS FAV MUSIC TO POPULATE ON LOGIN
         })
         .catch(err => {
           console.log('INVALID USERNAME OR PASSWORD')
@@ -105,7 +140,7 @@ export default new vuex.Store({
         commit('clearData', res)
       })
     }
-    // END AUTH ACTIONS
+    //endregion END AUTH ACTIONS
     
   }
 })

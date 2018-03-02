@@ -106,11 +106,14 @@
   nav p{
     margin-bottom: 0;
   }
+  .orange{
+    color: #f99b53;
+  }
   .orange:hover{
-    color: orange;
+    color: #db8a4c;
   }
   .title{
-    color: orange;
+    color: #f99b53;
     margin-bottom: 0;
   }
   .dropdown-menu{
@@ -118,6 +121,6 @@
     padding: .1rem 0;
   }
   .dropdown-toggle::after{
-    color: orange;
+    color: #f99b53;
   }
 </style>

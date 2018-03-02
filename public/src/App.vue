@@ -10,6 +10,7 @@ export default {
   name: 'app',
   mounted(){
     this.$store.dispatch('authenticate')
+    this.$store.dispatch('getMyTunes')
   },
 }
 </script>
