@@ -3,20 +3,26 @@
     <!-- YOU WILL PROBABLY END UP WITH SOMETHING LIKE THIS -->
     <nav class="navbar navbar-dark bg-dark">
       <div>
-          <h3 class="title"><i class="fas fa-headphones"></i> Groo<em><u>vues</u></em></h3>
+        <h3 class="title">
+          <i class="fas fa-headphones"></i> Groo<em><u>vues</u></em>
+        </h3>
       </div>
       <div v-if="!loginUser._id">
-        <p><router-link :to="{name: 'Login'}">login</router-link> or <router-link :to="{name: 'Signup'}">signup</router-link></p>
+        <p>
+          <router-link :to="{name: 'Login'}">login</router-link> or
+          <router-link :to="{name: 'Signup'}">signup</router-link>
+        </p>
       </div>
       <div v-else>
         <div class="dropdown show">
-            <a class="dropdown-toggle pointer" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="orange"><i class="fas fa-user-circle"></i> {{loginUser.username}}</span>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <a class="dropdown-item pointer" @click.prevent="logout">logout?</a>
-            </div>
+          <a class="dropdown-toggle pointer" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="orange">
+              <i class="fas fa-user-circle"></i> {{loginUser.username}}</span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item pointer" @click.prevent="logout">logout?</a>
           </div>
+        </div>
       </div>
     </nav>
     <div class="search-section flexor">
@@ -32,9 +38,12 @@
       </div>
     </div>
     <div class="container-fluid">
-      <div class="row">
-        <itunes class="itunes"></itunes>
-        <my-tunes class="my-tunes"></my-tunes>
+      <div v-if="myFavs.length > 0" class="row">
+        <itunes class="itunes col-sm-9"></itunes>
+        <my-tunes class="my-tunes col-sm-3"></my-tunes>
+      </div>
+      <div v-else class="row">
+        <itunes class="itunes col-sm-12"></itunes>
       </div>
     </div>
   </div>
@@ -65,8 +74,11 @@
       MyTunes
     },
     computed: {
-      loginUser(){
+      loginUser() {
         return this.$store.state.user
+      },
+      myFavs() {
+        return this.$store.state.myTunes
       }
     }
   }
@@ -77,7 +89,8 @@
   .my-tunes {
     background: rgb(79, 148, 79);
   }
-  .search-section{
+
+  .search-section {
     height: 60vh;
     background-image: url('../assets/bg.jpg');
     /* background-position: center; */
@@ -85,42 +98,53 @@
     background-attachment: fixed;
     color: white;
   }
-  .flexor{
+
+  .flexor {
     display: flex;
     justify-content: center;
     align-items: center
   }
-  .search-box{
+
+  .search-box {
     /* align-self: flex-end; */
     /* padding-bottom: 1rem; */
   }
+
   .itunes {
     background: rgb(190, 190, 190);
   }
-  .heading{
+
+  .heading {
     flex-basis: 60%;
   }
-  .pointer{
+
+  .pointer {
     cursor: pointer;
   }
-  nav p{
+
+  nav p {
     margin-bottom: 0;
   }
-  .orange{
+
+  .orange {
     color: #f99b53;
   }
-  .orange:hover{
+
+  .orange:hover {
     color: #db8a4c;
   }
-  .title{
+
+  .title {
     color: #f99b53;
     margin-bottom: 0;
   }
-  .dropdown-menu{
+
+  .dropdown-menu {
     min-width: 0;
     padding: .1rem 0;
   }
-  .dropdown-toggle::after{
+
+  .dropdown-toggle::after {
     color: #f99b53;
   }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="itunes col-sm-9">
+    <div class="itunes">
         <div class="">
             <h1>iTunes Search</h1>
             <div class="flexor">

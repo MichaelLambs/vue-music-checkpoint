@@ -1,25 +1,27 @@
 <template>
-    <div class="my-tunes col-sm-3">
+    <div class="my-tunes">
         <div class="">
             <h1>Favorite List</h1>
             <div class="flexor-col">
                 <div v-for="myFav in myFavs" class="search-result">
-                    <div class="flexor">
-                        <div>
+                    <div class="flexor spacing">
+                        <div >
                             <img class="cover" :src="myFav.artworkUrl100" alt="" width="200" height="200">
                             <p>{{myFav.artistName}} | {{myFav.trackName}}
-                                <i @click="remove(myFav)" class="pointer far fa-times-circle"></i>
                             </p>
                         </div>
-                        <div class="arrows">
-                            <div>
-                                <i @click="upvote(myFav)" class=" pointer fas fa-caret-up"></i>
-                            </div>
-                            <div>
-                                {{myFav.trackLike}}
-                            </div>
-                            <div>
-                                <i @click="downvote(myFav)" class="pointer fas fa-caret-down"></i>
+                        <div class="flexor flexor-col">
+                            <div class="deleter"><i @click="remove(myFav)" class="pointer far fa-times-circle"></i></div>
+                            <div class="arrows">
+                                <div>
+                                    <i @click="upvote(myFav)" class=" pointer fa-2x fas fa-caret-up"></i>
+                                </div>
+                                <div>
+                                    <h4><b>{{myFav.trackLike}}</b></h4>
+                                </div>
+                                <div>
+                                    <i @click="downvote(myFav)" class="pointer fas fa-2x fa-caret-down"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -52,9 +54,15 @@
                 this.$store.dispatch('downvote', track)
             }
         },
+        mounted(){
+            // this.$store.dispatch('getMyTunes')
+        },
         computed: {
             myFavs() {
                 return this.$store.state.myTunes
+            },
+            user() {
+                return this.$store.state.user
             }
         }
     }
@@ -69,10 +77,16 @@
         flex-direction: column;
     }
     .arrows{
-        align-self: center;
-        margin-left: 1rem;
+        justify-content: center;
+        text-align: center;
     }
     .pointer{
         cursor: pointer;
+    }
+    .spacing {
+        justify-content: space-between;
+    }
+    .deleter{
+        align-self: flex-start
     }
 </style>

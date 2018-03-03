@@ -35,6 +35,11 @@ export default new vuex.Store({
       state.myTunes.push(track)
     },
     setMyTunes(state, payload){
+      // var sorted = [] // this is where we run over the sorted information. the songs on the server do not change!
+      // sort them then push to an empty array that 
+      payload.sort(function (a, b) {
+        return b.trackLike - a.trackLike;
+    })
       state.myTunes = payload
     },
 

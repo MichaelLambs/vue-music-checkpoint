@@ -1,6 +1,7 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 var bcrypt = require('bcryptjs')
+var ObjectId = mongoose.SchemaTypes.ObjectId
 var schemaName = 'User'
 const SALT_FACTOR = 10;
 
@@ -8,7 +9,7 @@ var schema = new Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     email: {type: String, required: true, unique: true},
-    songOrder : {type: Array, default: ["1a", "2b", "3c", "4d", "5e", "6f"]}
+    songOrder : [{type: ObjectId, ref: 'Track'}]
 })
 
 // GENERATES THE HASH FROM THE PASSWORD WE PASS IT AND ENCRYPTS IT SALT X 13
@@ -23,3 +24,4 @@ schema.methods.validatePassword = function(password){
 
 
 module.exports = mongoose.model(schemaName, schema)
+// pushed into user.songoger
