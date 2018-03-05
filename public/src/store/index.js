@@ -26,6 +26,10 @@ export default new vuex.Store({
     myTunes: [],
     results: [],
     user: {},
+    myPlaylists: [],
+    activePlaylist: {
+      songs: []
+    }
   },
   mutations: {
     setResults(state, results) {
@@ -42,6 +46,18 @@ export default new vuex.Store({
     })
       state.myTunes = payload
     },
+    getPlaylists(state, payload){
+      state.myPlaylists.push(payload)
+    },
+    setPlaylists(state, payload){
+      state.myPlaylists = payload
+    },
+    setActivePlaylist(state, payload){
+      state.activePlaylist = payload
+    },
+    setPlaylistSongs(state, payload) {
+      state.activePlaylist = payload
+    },
 
     // START AUTH MUTATIONS
     loginUser(state, payload) {
@@ -50,6 +66,7 @@ export default new vuex.Store({
     clearData(state, payload){
       state.myTunes = [];
       state.user = {}
+      state.myPlaylists = []
     }
   },
   actions: {
@@ -58,6 +75,7 @@ export default new vuex.Store({
       musicAPI.get('https://itunes.apple.com/search?term=' + artist)
         .then(res => {
           commit('setResults', res.data.results)
+          console.log(res.data.results)
         })
         .catch(err=> {
           console.log(err)
@@ -102,6 +120,45 @@ export default new vuex.Store({
           dispatch('getMyTunes', track)
         })
     },
+    createPlaylist({commit, dispatch}, payload){
+      serverAPI.post('playlists', payload)
+        .then(res => {
+          commit('getPlaylists', res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    getPlaylist({commit, dispatch}){
+      serverAPI.get('playlists')
+        .then(res => {
+          commit('setPlaylists', res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    removePlaylist({commit, dispatch}, payload) {
+      serverAPI.delete('playlists/' + payload._id)
+        .then(res => {
+          dispatch('getPlaylist')
+        })
+    },
+    addToPlaylist({commit, state}, payload){
+      var activeId = state.activePlaylist._id
+      state.activePlaylist.songs.push(payload)
+      var playlistData = state.activePlaylist
+      console.log('songs', playlistData.songs)
+      // debugger
+      serverAPI.put('playlists/' + activeId, playlistData)
+        .then(res => {
+          console.log('back from server', res.data.songs)
+          commit('setPlaylistSongs', res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
 
     //region START AUTH ROUTES
     login({ commit, dispatch }, payload) {
@@ -111,6 +168,7 @@ export default new vuex.Store({
           console.log("LOGIN USER DATA", res.data.user)
           commit('loginUser', res.data.user)
           router.push({ name: 'Home' })
+          dispatch('getPlaylist')
           dispatch('getMyTunes') //ALLOWS FAV MUSIC TO POPULATE ON LOGIN
         })
         .catch(err => {

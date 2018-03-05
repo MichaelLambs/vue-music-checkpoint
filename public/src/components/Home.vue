@@ -39,8 +39,8 @@
     </div>
     <div class="container-fluid">
       <div v-if="myFavs.length > 0" class="row">
-        <itunes class="itunes col-sm-9"></itunes>
-        <my-tunes class="my-tunes col-sm-3"></my-tunes>
+        <itunes class="itunes col-sm-8"></itunes>
+        <my-tunes class="my-tunes col-sm-4"></my-tunes>
       </div>
       <div v-else class="row">
         <itunes class="itunes col-sm-12"></itunes>

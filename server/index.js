@@ -9,6 +9,7 @@ require("./server-assets/db/mlab-config");
 
 let authRoutes = require('./server-assets/auth/routes')
 let trackRoutes = require('./server-assets/routes/tracks')
+let playlistRoutes = require('./server-assets/routes/playlists')
 
 var whitelist = ['http://localhost:8080']
 var corsOptions = {
@@ -29,6 +30,7 @@ server.use(authRoutes);
 //Your routes here
 
 server.use(trackRoutes);
+server.use(playlistRoutes);
 
 
 server.use("*", (error, req, res, next) => {

@@ -7,7 +7,12 @@
                     <img class="cover" :src="track.artworkUrl100" alt="" width="200" height="200">
                     <h3>{{track.artistName}}</h3>
                     <p><em>{{track.trackName}}</em></p>
-                    <button @click.prevent="addFav(track)">add to fav</button>
+                    <div class="preview-box">
+                            <audio class="audio-box" controls="controls">
+                              <source :src="track.previewUrl" />
+                            </audio>
+                          </div>
+                    <button @click.prevent="addFav(track)" @click="addToPlay(track)">add to {{activPlay.name}}</button>
                 </div>
             </div>
         </div>
@@ -26,6 +31,9 @@
         methods: {
             addFav(track) {
                 this.$store.dispatch('addFav', track)
+            },
+            addToPlay(track){
+                this.$store.dispatch('addToPlaylist', track)
             }
         },
         computed: { // ALWAYS PUT RETURN ON COMPUTED!!!!!!!!!!!!! WASTE OF TIME!!!!!!!!!!!!
@@ -39,9 +47,10 @@
                         songTrack.artworkUrl100 = newArt
                     }
                 }
-
-                console.log(this.$store.state.results)
                 return this.$store.state.results
+            },
+            activPlay(){
+                return this.$store.state.activePlaylist
             }
         }, // ALWAYS PUT RETURN ON COMPUTED!!!!!!!!!!!!! WASTE OF TIME!!!!!!!!!!!!
 

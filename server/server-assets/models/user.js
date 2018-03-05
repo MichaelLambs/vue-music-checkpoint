@@ -9,7 +9,8 @@ var schema = new Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     email: {type: String, required: true, unique: true},
-    songOrder : [{type: ObjectId, ref: 'Track'}]
+    songOrder : [{type: ObjectId, ref: 'Track'}],
+    playlists : [{type: ObjectId, ref: 'Playlist'}]
 })
 
 // GENERATES THE HASH FROM THE PASSWORD WE PASS IT AND ENCRYPTS IT SALT X 13

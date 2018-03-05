@@ -11,6 +11,7 @@ export default {
   mounted(){
     this.$store.dispatch('authenticate')
     this.$store.dispatch('getMyTunes')
+    this.$store.dispatch('getPlaylist')
   },
 }
 </script>

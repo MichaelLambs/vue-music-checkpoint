@@ -4,7 +4,7 @@ var Users = require('../models/user')
 
 // GET FAVORITE TRACKS BY USER
 router.get('/api/tracks', (req, res, next) => {
-    Tracks.find({userId: req.session.uid}) // FINDS MOVIES TIED TO userId BY SETTING IT TO SESSION ID
+    Tracks.find({userId: req.session.uid}) // FINDS TRACKS TIED TO userId BY SETTING IT TO SESSION ID
         .then(tracks => {
             res.send(tracks)
         })
